@@ -25,6 +25,7 @@ local Vars = {
 
     -- normal settings
     GeneralChams = false,
+    GeneralChamsFriends = false,
     GeneralChamsEnemyOnly = false,
     GeneralChamsTransparencyValue = 0,
     GeneralChamsMaxDistanceValue = 5000,
@@ -37,6 +38,7 @@ local Colors = {
     CrimSilentAimFovColor = Color3.fromRGB(255,255,255),
 
     GeneralChamsColor = Color3.fromRGB(255,255,255),
+    GeneralChamsFriendColor = Color3.fromRGB(255,255,255),
     GeneralAmbienceColor = Color3.fromRGB(255,255,255),
     GeneralOutdoorAmbienceColor = Color3.fromRGB(255,255,255),
 
@@ -142,6 +144,23 @@ local GeneralChamsToggle = Chams:AddToggle("Enabled",Vars.GeneralChams,function(
         Vars.GeneralChams = false
     end
 end)
+
+local GeneralChamsFriendToggle = Chams:AddToggle("Mark Friends",Vars.GeneralChamsFriends,function(Enabled)
+    if Enabled then
+        Vars.GeneralChamsFriends = true
+    else
+        Vars.GeneralChamsFriends = false
+    end
+end)
+
+table.insert(LoadVars,{GeneralChamsFriends = GeneralChamsFriendToggle})
+
+local ChamsFriendsRGBColor
+ChamsFriendsRGBColor = GeneralChamsFriendToggle:AddColorpicker(Colors.GeneralChamsFriendColor,function()
+    Colors.GeneralChamsFriendColor = ChamsFriendsRGBColor:Get()
+end)
+
+table.insert(LoadColors,{GeneralChamsFriendColor = ChamsFriendsRGBColor})
 
 local GeneralChamsEnemiesOnly = Chams:AddToggle("Enemies Only",Vars.GeneralChamsEnemyOnly,function(Enabled)
     if Enabled then
@@ -436,7 +455,12 @@ else
                                             BoxHandle.Visible = false
                                             BoxHandle.Transparency = Vars.GeneralChamsTransparencyValue
                                             BoxHandle.ZIndex = 10
-                                            BoxHandle.Color = BrickColor.new(Colors.GeneralChamsColor)
+
+                                            if Vars.GeneralChamsFriends and Player:IsFriendsWith(v.UserId) then
+                                                BoxHandle.Color = BrickColor.new(Colors.GeneralChamsFriendColor)
+                                            else
+                                                BoxHandle.Color = BrickColor.new(Colors.GeneralChamsColor)
+                                            end
                                         
                                             if Vars.GeneralChamsEnemyOnly then
                                                 if v.Team ~= Player.Team then
