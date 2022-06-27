@@ -671,7 +671,7 @@ if gameIs(Games.PhantomForces) then
 
     setreadonly(mt,true)]]
 
-    local Combat = Window:CreateTab("Combat")
+    --[[local Combat = Window:CreateTab("Combat")
 
     local GunMods = Combat:CreateSector("Gun Mods","Left")
 
@@ -777,7 +777,7 @@ if gameIs(Games.PhantomForces) then
             end
         end)
     end
-end
+end]]
 
 --[[local Ambience = Visuals:CreateSector("Ambience","Right")
 
